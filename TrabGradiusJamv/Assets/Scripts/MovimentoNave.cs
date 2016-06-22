@@ -38,11 +38,16 @@ public class MovimentoNave : MonoBehaviour {
 			}
 		} 	
 		if (Ntiros < 5 && Input.GetKeyDown (KeyCode.Space)) {
-			Debug.Log(Ntiros);
+			//Debug.Log(Ntiros);
 			Instantiate(missil, spawnPoint.transform.position, missil.transform.localRotation);
 			Ntiros ++;
 		}
 
 	}
+
+	/*void OnCollisionEnter2D(Collision2D coll)
+	{
+		Destroy (this.gameObject);
+	}*/
 
 }

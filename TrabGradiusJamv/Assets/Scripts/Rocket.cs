@@ -10,19 +10,22 @@ public class Rocket : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		transform.Translate(Vector2.up /* Time.deltaTime */* 3);
-	}
-
-	void OnCollisionEnter2D(Collision2D coll)
-	{
-		if(GameObject.FindGameObjectWithTag("inimigo"))
+		if (transform.position.x >= 610)
 		{
 			MovimentoNave.Ntiros -= 1;
 			Destroy (this.gameObject);
 		}
-		if(GameObject.FindGameObjectWithTag("rocket"))
+	}
+
+	void OnCollisionEnter2D(Collision2D coll)
+	{
+		if(gameObject.tag == "inimigo")
 		{
-			
+			MovimentoNave.Ntiros -= 1;
+			Destroy (this.gameObject);
 		}
+		
+
 	}	
 
 	/*void OnBecameInvisible()

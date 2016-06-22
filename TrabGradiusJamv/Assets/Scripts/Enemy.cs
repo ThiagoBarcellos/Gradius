@@ -5,12 +5,13 @@ public class Enemy : MonoBehaviour {
 	private bool movimentovertical= true;
 
 	float speed = 2f;
-	float speedfrente = -1f;
+	float speedfrente = -0.5f;
+
 
 	void Start () {
-	
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		transform.Translate (Vector2.up * speed);
@@ -25,12 +26,18 @@ public class Enemy : MonoBehaviour {
 			speed = 2f;
 		}
 
+		if(transform.position.x < -40f)
+		{
+			Destroy (this.gameObject);
+		}
 
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		//Debug.Log("LOL");
-		Destroy (this.gameObject);
+		if(gameObject.tag == "rocket")
+		{
+			Destroy (this.gameObject);
+		}
 	}
 }
