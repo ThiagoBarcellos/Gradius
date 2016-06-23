@@ -19,11 +19,11 @@ public class Rocket : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		if(gameObject.tag == "inimigo")
-		{
+		//if(gameObject.tag != "rocket")
+		//{
 			MovimentoNave.Ntiros -= 1;
 			Destroy (this.gameObject);
-		}
+		//}
 		
 
 	}	

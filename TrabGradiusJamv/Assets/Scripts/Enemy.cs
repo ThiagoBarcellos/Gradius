@@ -35,9 +35,9 @@ public class Enemy : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		if(gameObject.tag == "rocket")
-		{
+		//if(gameObject.tag == "rocket")
+		//{
 			Destroy (this.gameObject);
-		}
+		//}
 	}
 }

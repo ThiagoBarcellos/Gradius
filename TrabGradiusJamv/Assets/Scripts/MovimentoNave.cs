@@ -7,12 +7,23 @@ public class MovimentoNave : MonoBehaviour {
 	// Use this for initialization
 	public static int Ntiros = 0;
 	public GameObject missil;
+	public GameObject nave;
+	public static int vidas = 3;
+	private bool morte = false;
 
 	[SerializeField]
 	private GameObject spawnPoint;
-
+	private GameObject respawn;
+	
 	void Start () {
 
+	}
+
+	void OnCollisionEnter2D(Collision2D coll)
+	{
+		Destroy (this.gameObject);
+		vidas --;
+		morte = true;
 	}
 	
 	// Update is called once per frame
@@ -42,12 +53,9 @@ public class MovimentoNave : MonoBehaviour {
 			Instantiate(missil, spawnPoint.transform.position, missil.transform.localRotation);
 			Ntiros ++;
 		}
-
+		if (morte) {
+			Instantiate(nave,respawn.transform.position, nave.transform.localRotation);
+			morte = false;
+		}
 	}
-
-	/*void OnCollisionEnter2D(Collision2D coll)
-	{
-		Destroy (this.gameObject);
-	}*/
-
 }
