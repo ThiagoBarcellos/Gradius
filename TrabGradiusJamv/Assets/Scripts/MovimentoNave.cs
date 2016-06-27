@@ -2,9 +2,7 @@
 using System.Collections;
 
 public class MovimentoNave : MonoBehaviour {
-	//public bool shoot = false;
-	//GameObject nave = new GameObject("nave");
-	// Use this for initialization
+
 	public static int Ntiros = 0;
 	public GameObject missil;
 	public GameObject nave;
@@ -13,7 +11,7 @@ public class MovimentoNave : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject spawnPoint;
-	private GameObject respawn;
+	public GameObject respawn;
 	
 	void Start () {
 
@@ -47,15 +45,18 @@ public class MovimentoNave : MonoBehaviour {
 			if (Input.GetKey (KeyCode.A)) {
 				transform.Translate (Vector2.right /* Time.deltaTime */ * -3);
 			}
-		} 	
+		}
+
+		if (morte) {
+			Instantiate(nave,respawn.transform.position, nave.transform.localRotation);
+			morte = false;
+		}
+
 		if (Ntiros < 5 && Input.GetKeyDown (KeyCode.Space)) {
 			//Debug.Log(Ntiros);
 			Instantiate(missil, spawnPoint.transform.position, missil.transform.localRotation);
 			Ntiros ++;
 		}
-		if (morte) {
-			Instantiate(nave,respawn.transform.position, nave.transform.localRotation);
-			morte = false;
-		}
+
 	}
 }

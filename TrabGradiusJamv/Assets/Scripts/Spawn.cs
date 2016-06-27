@@ -4,7 +4,9 @@ using System.Collections;
 public class Spawn : MonoBehaviour {
 	float tempo;
 	public GameObject inimigo;
+	public GameObject boss;
 	bool spawn;
+	int Ninimigos = 0;
 	[SerializeField]
 	private GameObject enemyrespawn;
 	int NHorda = 1;
@@ -23,7 +25,7 @@ public class Spawn : MonoBehaviour {
 		if (tempo >= 4 && spawn == false && NHorda == 1) {
 			spawn = true;
 			tempo = 0;
-			
+			Ninimigos++;
 		}
 		if (spawn && NHorda == 1) {
 			Instantiate(inimigo, enemyrespawn.transform.position, enemyrespawn.transform.localRotation);
@@ -31,8 +33,14 @@ public class Spawn : MonoBehaviour {
 
 		}
 
-		if (tempo >= 130f) {
-			
+		if (Ninimigos == 15) {
+			NHorda = 2;
 		}
+		/*Debug.Log ("horda : " + NHorda);
+		Debug.Log ("inimigos : " + Ninimigos);*/
+
+		/*if (NHorda == 2) {
+		Instantiate
+		}*/
 	}
 }

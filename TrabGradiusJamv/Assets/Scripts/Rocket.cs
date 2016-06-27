@@ -9,11 +9,23 @@ public class Rocket : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Translate(Vector2.up /* Time.deltaTime */* 3);
-		if (transform.position.x >= 610)
+		if(gameObject.tag == "rocket");
 		{
-			MovimentoNave.Ntiros -= 1;
-			Destroy (this.gameObject);
+			transform.Translate(Vector2.up /* Time.deltaTime */* 3);
+			if (transform.position.x >= 610)
+			{
+				MovimentoNave.Ntiros -= 1;
+				Destroy (this.gameObject);
+			}
+		}
+
+	if(gameObject.tag == "laser")
+		{
+		transform.Translate(Vector2.right * -5);
+			if (transform.position.x <= -80)
+			{
+				Destroy (this.gameObject);
+			}
 		}
 	}
 
