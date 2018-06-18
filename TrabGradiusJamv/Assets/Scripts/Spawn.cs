@@ -3,44 +3,89 @@ using System.Collections;
 
 public class Spawn : MonoBehaviour {
 	float tempo;
+	float tempo2;
+	float tempoMeteoro;
+	float tempobuff;
+
+	int vaiSpawnar;
+
 	public GameObject inimigo;
-	public GameObject boss;
-	bool spawn;
-	int Ninimigos = 0;
+	public GameObject inimigo2;
+	public GameObject meteoro;
+	public GameObject Ampulheta;
+
+	bool spawnInimigos;
+	bool spawnInimigo2;
+	bool spawnMeteoro;
+	bool spawnbuff;
+
 	[SerializeField]
 	private GameObject enemyrespawn;
-	int NHorda = 1;
 
-	// Use this for initialization
+	public GameObject Ienemyrespawn;
+	public GameObject Fenemyrespawn;
+
 	void Start () {
-		spawn = false;
+		spawnInimigos = false;
+		spawnInimigo2 = false;
+		spawnMeteoro = false;
+		spawnbuff = false;
+
 		tempo = Time.deltaTime;
+		tempoMeteoro = Time.deltaTime;
+		tempo2 = Time.deltaTime;
+		tempobuff = Time.deltaTime;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		tempo += Time.deltaTime;
+		tempoMeteoro += Time.deltaTime;
+		tempo2 += Time.deltaTime;
+		tempobuff += Time.deltaTime;
 
-		//Debug.Log (tempo);
-		if (tempo >= 4 && spawn == false && NHorda == 1) {
-			spawn = true;
+		if (tempo >= 4 && spawnInimigos == false) {
+			spawnInimigos = true;
 			tempo = 0;
-			Ninimigos++;
 		}
-		if (spawn && NHorda == 1) {
-			Instantiate(inimigo, enemyrespawn.transform.position, enemyrespawn.transform.localRotation);
-			spawn = false;
-
+		if (tempoMeteoro >= 1 && spawnMeteoro == false) {
+			spawnMeteoro = true;
+			tempoMeteoro = 0;
+		}
+		if (tempo2 >= 6 && spawnInimigo2 == false) {
+			spawnInimigo2 = true;
+			tempo2 = 0;
+		}
+		if (tempobuff >= 10 && spawnbuff == false) {
+			vaiSpawnar = (int)Random.Range (0f, 10f);
+			Debug.Log (vaiSpawnar);
+			if (vaiSpawnar < 4) {
+				tempobuff = 0f;
+			}
+			else {
+				spawnbuff = true;
+				tempobuff = 0;
+			}
 		}
 
-		if (Ninimigos == 15) {
-			NHorda = 2;
+		if (spawnInimigos) {
+			Vector2 position = new Vector2 (Random.Range (Ienemyrespawn.transform.position.x, Fenemyrespawn.transform.position.x), enemyrespawn.transform.position.y);
+			Instantiate(inimigo, position , enemyrespawn.transform.localRotation);
+			spawnInimigos = false;
 		}
-		/*Debug.Log ("horda : " + NHorda);
-		Debug.Log ("inimigos : " + Ninimigos);*/
-
-		/*if (NHorda == 2) {
-		Instantiate
-		}*/
+		if (spawnMeteoro) {
+			Vector2 position = new Vector2 (Random.Range (Ienemyrespawn.transform.position.x, Fenemyrespawn.transform.position.x), enemyrespawn.transform.position.y);
+			Instantiate(meteoro, position , enemyrespawn.transform.localRotation);
+			spawnMeteoro = false;
+		}
+		if (spawnInimigo2) {
+			Vector2 position = new Vector2 (Random.Range (Ienemyrespawn.transform.position.x, Fenemyrespawn.transform.position.x), enemyrespawn.transform.position.y);
+			Instantiate(inimigo2, position , enemyrespawn.transform.localRotation);
+			spawnInimigo2 = false;
+		}
+		if (spawnbuff) {
+			Vector2 position = new Vector2 (Random.Range (Ienemyrespawn.transform.position.x, Fenemyrespawn.transform.position.x), enemyrespawn.transform.position.y);
+			Instantiate(Ampulheta, position , enemyrespawn.transform.localRotation);
+			spawnbuff = false;
+		}
 	}
 }

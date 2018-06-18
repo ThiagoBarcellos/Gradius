@@ -2,50 +2,36 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
-	private bool movimentovertical= true;
-
-	float speed = 2f;
-	float speedfrente = -1f;
-	float recarga = 0;
-	public GameObject tiro;
-
-	public GameObject tirospawn;
+	float speedbaixo = 45f ;
 
 	void Start () {
 
 	}
 
-	// Update is called once per frame
 	void Update () {
-		transform.Translate (Vector2.up * speed);
-		transform.Translate (Vector2.right *speedfrente );
-		recarga ++;
-		//Debug.Log (recarga);
-		if(transform.position.y > 230f)
-		{
-			speed = -2f;
-		}
-		if(transform.position.y < 26f)
-		{
-			speed = 2f;
-		}
+		transform.Translate (Vector2.down * speedbaixo * Time.deltaTime);
 
-		if(transform.position.x < -40f)
+		if (transform.position.y <= -23)
 		{
 			Destroy (this.gameObject);
 		}
-		if (recarga == 50) {
-			Instantiate(tiro, tirospawn.transform.position, tiro.transform.localRotation);
-			recarga =0;
-		}
-
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		if(gameObject.tag == "rocket" || gameObject.tag == "player")
-		{
-			Destroy (this.gameObject);
-		}
+		if (coll.gameObject.tag == "rocket") {
+			if (this.gameObject.tag == "inimigo1") {
+				SceneManager.Pontuacao += 1;
+				Destroy (this.gameObject);
+			} 
+			else if (this.gameObject.tag == "inimigo2") {
+				SceneManager.Pontuacao += 2;
+				Destroy (this.gameObject);
+			} 
+			else {
+				SceneManager.Pontuacao += 3;
+				Destroy (this.gameObject);
+			}
+		} 
 	}
 }

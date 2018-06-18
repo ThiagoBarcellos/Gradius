@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class MovimentoNave : MonoBehaviour {
@@ -6,12 +7,10 @@ public class MovimentoNave : MonoBehaviour {
 	public static int Ntiros = 0;
 	public GameObject missil;
 	public GameObject nave;
-	public static int vidas = 3;
-	private bool morte = false;
+	private float speed = 2;
 
 	[SerializeField]
 	private GameObject spawnPoint;
-	public GameObject respawn;
 	
 	void Start () {
 
@@ -19,44 +18,44 @@ public class MovimentoNave : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		Destroy (this.gameObject);
-		vidas --;
-		morte = true;
+		if (coll.gameObject.tag == "inimigo1" || coll.gameObject.tag == "inimigo2" || coll.gameObject.tag == "inimigo3") {
+			Destroy (this.gameObject);
+			if (SceneManager.PontuacaoMax < SceneManager.Pontuacao) {
+				SceneManager.PontuacaoMax = SceneManager.Pontuacao;
+				UnityEngine.SceneManagement.SceneManager.LoadScene (2);
+			} 
+			else {
+				UnityEngine.SceneManagement.SceneManager.LoadScene (2);
+			}
+		}
+		if (coll.gameObject.tag == "ampulheta") {
+			SceneManager.ContagemReg += 15;
+			Destroy (coll.gameObject);
+		}
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		if (transform.position.y <= 245) {
-			if (Input.GetKey (KeyCode.W)) {
-				transform.Translate (Vector2.up *2 /* Time.deltaTime * 5*/);
-			}
-		}
-		if (transform.position.x <= 546) {
-			if (Input.GetKey (KeyCode.D)) {
-				transform.Translate (Vector2.right *2 /* Time.deltaTime * 5*/);
-			}
-		}
-		if (transform.position.y >= 21) {
-			if (Input.GetKey (KeyCode.S)) {
-				transform.Translate (Vector2.up /* Time.deltaTime */* -3);
-			}
-		}
-		if (transform.position.x >= 33) {
-			if (Input.GetKey (KeyCode.A)) {
-				transform.Translate (Vector2.right /* Time.deltaTime */ * -3);
-			}
-		}
-
-		if (morte) {
-			Instantiate(nave,respawn.transform.position, nave.transform.localRotation);
-			morte = false;
-		}
+	void Update ()
+	{
+		float upDown = Input.GetAxis ("Vertical") * speed * -40f * Time.deltaTime;
+		float rightLeft = Input.GetAxis ("Horizontal") * speed * -40f * Time.deltaTime;
+		this.transform.Translate (rightLeft, upDown, 0f);
 
 		if (Ntiros < 5 && Input.GetKeyDown (KeyCode.Space)) {
-			//Debug.Log(Ntiros);
-			Instantiate(missil, spawnPoint.transform.position, missil.transform.localRotation);
-			Ntiros ++;
+			Instantiate (missil, spawnPoint.transform.position, missil.transform.localRotation);
+			Ntiros++;
 		}
 
+		if (this.transform.position.x <= 178f) {
+			this.transform.position = new Vector2(178f,this.transform.position.y);
+		}
+		if (this.transform.position.x >= 403f) {
+			this.transform.position = new Vector2(403f,this.transform.position.y);
+		}
+		if (this.transform.position.y >= 220f) {
+			this.transform.position = new Vector2(this.transform.position.x,220f);
+		}
+		if (this.transform.position.y <= -17f) {
+			this.transform.position = new Vector2(this.transform.position.x,-17f);
+		}
 	}
 }
